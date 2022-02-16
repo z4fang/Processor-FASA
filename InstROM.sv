@@ -37,26 +37,38 @@ module InstROM #(parameter A=10, W=9) (
 // (default case already covered by opening statement)
     endcase
   end
+  
+  
+  // Approach 2: Create an actual instruction memory, and populate it
+// from an external file.
+//
+// This is usually what you will switch to fairly quickly, once you
+// start testing your actual program implementations on your core,
+// rather than individual instructions.
 
-/* Uncomment this part if reading from machine_code.txt
-// Second option (usually recommended) alternative expression
-//   need $readmemh or $readmemb to initialize all of the elements
-// declare 2-dimensional array, W bits wide, 2**A words deep
-  logic[W-1:0] inst_rom[2**A];
-  always_comb InstOut = inst_rom[InstAddress];
 
-  // Load instruction memory from external file
-  initial begin
-  	// NOTE: This may not work depending on your simulator
-	//       e.g. Questa needs the file in path of the application .exe, it
-	//       doesn't care where you project code is
-	//$readmemb("machine_code.txt",inst_rom);
-	
-	// So you are probably better off with an absolute path,
-	// but you will have to change this example path when you
-	// try this on your machine most likely:
-	//$readmemb("//vmware-host/Shared Folders/Downloads/basic_proc2/machine_code.txt", inst_rom);
-  end 
-*/
+// Declare 2-dimensional array, W bits wide, 2**A words deep
+//logic [W-1:0] inst_rom[2**A];
+
+// This is where memory is read
+//always_comb InstOut = inst_rom[InstAddress];
+
+// And this runs once during initalization to load instruction memory from
+// external file using $readmemh or $readmemb.
+//initial begin
+  // NOTE: This may not work depending on your simulator
+  //       e.g. Questa needs the file in path of the application .exe,
+  //       it doesn't care where you project code is
+  //$readmemb("../inst_mem.hex",inst_rom);
+
+  // So you are probably better off with an absolute path,
+  // but you will have to change this example path when you
+  // try this on your machine most likely:
+  //$readmemb("//vmware-host/Shared Folders/Downloads/basic_proc2/machine_code.txt", inst_rom);
+//end
+
+
+//endmodule
+
   
 endmodule
