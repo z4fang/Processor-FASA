@@ -22,6 +22,7 @@ bit SC_IN = 'b0;
 wire[ 7:0] OUT;
 wire Zero;
 logic [ 7:0] expected;
+integer  op1, op2;
 
 // CONNECTION
 ALU uut(
@@ -35,29 +36,86 @@ ALU uut(
 
 initial begin
 
- INPUTA = 1;
- INPUTB = 1;
- op= 'b000; // ADD
- test_alu_func; // void function call
- #5;
+$display("Starting!");
 
+op= 'b000;   //reduction xor
+ for(op1=230; op1<256; op1++)begin
+   for(op2=230; op2<256; op2++)begin
+    INPUTA = op1;
+    INPUTB = op2;
+    test_alu_func;
+    #5;
+    end
+   end
 
- INPUTA = 4;
- INPUTB = 1;
- op= 'b100; // AND
- test_alu_func; // void function call
- #5;
+/*op= 'b000;   //add
+ for(op1=0; op1<256; op1++)begin
+   for(op2=0; op2<256; op++)begin
+    INPUTA = op1;
+    INPUTB = op2;
+    test_alu_func;
+    #5;
+    end
+   end
+ 
+op= 'b111; //and
+ for(op1=0; op1<256; op1++)begin
+   for(op2=0; op2<256; op++)begin
+    INPUTA = op1;
+    INPUTB = op2;
+    test_alu_func;
+    #5;
+    end
+   end
+
+ op= 'b010;  // Or
+ for(op1=0; op1<256; op1++)begin
+   for(op2=0; op2<256; op++)begin
+    INPUTA = op1;
+    INPUTB = op2;
+    test_alu_func;
+    #5;
+    end
+   end
+
+op= 'b101; //branch
+ for(op1=0; op1<256; op1++)begin
+    INPUTA = op1;
+    INPUTB = op2;
+    test_alu_func;
+    #5;
+   end
+
+ op= 'b110; //sll
+ for(op1=0; op1<256; op1++)begin
+   for(op2=0; op2<256; op++)begin
+    INPUTA = op1;
+    INPUTB = op2;
+    test_alu_func;
+    #5;
+    end
+   end */
+
  end
+
 
  task test_alu_func;
  begin
    case (op)
-  0: expected = INPUTA + INPUTB;  // ADD 
-  1: expected = {INPUTA[6:0], SC_IN};  // LSH
-  2: expected = {1'b0, INPUTA[7:1]};  // RSH
-  3: expected = INPUTA ^ INPUTB;  // XOR
-  4: expected = INPUTA & INPUTB;     //AND
-  5: expected = INPUTA - INPUTB;   // SUB
+  0: expected = INPUTA + INPUTB;     // ADD 
+  1: expected = ^INPUTB;             // reduction xor
+  2: expected =  INPUTA | INPUTB;    // bit wise or
+  3: expected = INPUTB;              // load
+  4: expected = INPUTA;              // store
+  5: expected = INPUTA > 0;          // Bgtz
+  6: expected = INPUTA << INPUTB;    // Sll
+  7: expected = INPUTA & INPUTB;     // and
+  //1: expected = {INPUTA[6:0], SC_IN};  // LSH
+  //2: expected = {1'b0, INPUTA[7:1]};  // RSH
+  //3: expected = INPUTA ^ INPUTB;  // XOR
+  //4: expected = INPUTA & INPUTB;     //AND
+  //5: expected = INPUTA - INPUTB;   // SUB
+
    endcase
    #1; if(expected == OUT)
   begin

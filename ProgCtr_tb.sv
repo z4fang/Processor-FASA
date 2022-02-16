@@ -1,8 +1,7 @@
 //PC (First half of fetch)
 module ProgCtr_tb;
-
+//`timescale 1ns/ 1ps
 `timescale 1ns/ 1ps
-//timeunit 1ns/1ps;
 // 1000ps = 1 ns
 bit Reset, Start, Clk, BranchAbsEn, BranchRelEn, ALU_flag;
 bit [9:0] Target;
@@ -12,8 +11,8 @@ ProgCtr uut (
     .Reset(Reset),
     .Start(Start),
     .Clk(Clk),
-    .BranchAbsEn(BranchAbsEn),
-    .BranchRelEn(BranchRelEn),
+    .BranchAbs(BranchAbsEn),
+    .BranchRel(BranchRelEn),
     .ALU_flag(ALU_flag),
     .Target(Target),
         .ProgCtr(ProgCtr_o)

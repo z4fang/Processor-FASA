@@ -38,6 +38,9 @@ always_ff @ (posedge Clk) begin
     Registers[2] <= '0;
     Registers[3] <= '0;
     Registers[4] <= '0;
+    Registers[5] <= '0;
+    Registers[6] <= '0;
+    Registers[7] <= '0;
   end else if (WriteEn) begin	                             // works just like data_memory writes
     Registers[Waddr] <= DataIn;
   end

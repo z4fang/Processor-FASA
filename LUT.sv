@@ -19,3 +19,5 @@ always_comb begin
 end
 
 endmodule
+
+//LUT for PC, Truth table

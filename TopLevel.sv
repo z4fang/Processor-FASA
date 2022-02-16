@@ -91,12 +91,13 @@ LUT LUT1(.Addr         (TargSel ) ,
 	  .OP      (Instruction[8:6]),
 	  .Out     (ALU_out),//regWriteValue),
 	  .Zero		                              // status flag; may have others, if desired
+	  //.Jump	   (Jump)
 	  );
   
 	DataMem DM1(
 		.DataAddress  (ReadB)    , 
 		.WriteEn      (MemWrite), 
-		.DataIn       (ReadA), 
+		.DataIn       (ReadA),
 		.DataOut      (MemReadValue)  , 
 		.Clk 		  		     ,
 		.Reset		  (Reset)

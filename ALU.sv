@@ -16,6 +16,7 @@ module ALU #(parameter W=8, Ops=3)(
                          Parity,          // outparity flag  ^(Out)
                          Odd			  // output odd flag (Out[0])
 // you may provide additional status flags, if desired
+                         //Jump
     );								    
 	 
   op_mne op_mnemonic;			          // type enum: used for convenient waveform viewing
@@ -24,12 +25,22 @@ module ALU #(parameter W=8, Ops=3)(
     Out = 0;                              // No Op = default
     case(OP)							  
       ADD : Out = InputA + InputB;        // add 
-      LSH : Out = {InputA[6:0],SC_in};    // shift left, fill in with SC_in 
+      XOR : Out = ^InputB;                // Reduction Or
+      OR  : Out = InputA | InputB;        // Or
+    //  LOD : Out = InputB;                 // load , doesn't matter what out is. Data in Mem[inputB] will get fetch in DataMem module
+    //  STR : Out = InputA;                 // Store, doesn't matter what out is. But here returning what data to store
+      BGZ : begin
+        Out = (InputA > 0) ? 1'b1:1'b0; // branch. Out = 1 success branch
+        //Out = Jump;
+      end
+      SLL : Out = InputA << InputB;       // shift left logical
+      AND : Out = InputA & InputB;        // AND
+      //LSH : Out = {InputA[6:0],SC_in};    // shift left, fill in with SC_in 
 // for logical left shift, tie SC_in = 0
-	  RSH : Out = {1'b0, InputA[7:1]};    // shift right
- 	  XOR : Out = InputA ^ InputB;        // bitwise exclusive OR
-      AND : Out = InputA & InputB;        // bitwise AND
-      SUB : Out = InputA + (~InputB) + 1;
+	  //RSH : Out = {1'b0, InputA[7:1]};    // shift right
+ 	  //XOR : Out = InputA ^ InputB;        // bitwise exclusive OR
+      //AND : Out = InputA & InputB;        // bitwise AND
+      //SUB : Out = InputA + (~InputB) + 1;
     endcase
   end
 
