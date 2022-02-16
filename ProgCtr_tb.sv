@@ -1,7 +1,8 @@
 //PC (First half of fetch)
 module ProgCtr_tb;
 
-timeunit 1ns/1ps;
+`timescale 1ns/ 1ps
+//timeunit 1ns/1ps;
 // 1000ps = 1 ns
 bit Reset, Start, Clk, BranchAbsEn, BranchRelEn, ALU_flag;
 bit [9:0] Target;
