@@ -1,0 +1,10 @@
+*.hex
+obj_dir/
+*.bak
+db/
+incremental_db/
+output_files/
+simulation/
+work/
+*.qsf
+*.qpf
