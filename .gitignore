@@ -8,3 +8,4 @@ simulation/
 work/
 *.qsf
 *.qpf
+*.rpt

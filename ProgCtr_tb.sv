@@ -57,7 +57,6 @@ initial begin
 
   // Advance to simulation time 3, latch values
   #1 Clk = '1;
-
   // Advance to simulation time 4, check results, prepare next values
   #1 Clk = '0;
   $display("Checking that nothing happens before Start");
@@ -66,27 +65,69 @@ initial begin
 
   // Advance to simulation time 5, latch values
   #1 Clk = '1;
-
-  // Advance to simulation time 6, check results, prepare next values
-  #1 Clk = '0;
-  $display("Checking that nothing happened during Start");
-  assert (NextInstructionIndex == 'd0);
   Start = '0;
+  // Advance to simulation time 6, check results, prepare next values
 
-  // Advance to simulation time 7, latch values
+  // Testing for start, prog 1, 2 ,3
+ /* #1 Clk = '0;
+  #1 Clk = '1;
+  Start = '1;
+  #1 Clk = '0;
+  #1 Clk = '1;
+  Start = '0;
+  #1 Clk = '0;
+  #1 Clk = '1;
+  Start = '1;
+  #1 Clk = '0;
+  #1 Clk = '1;
+  Start = '0;
+  #1 Clk = '0;
+  #1 Clk = '1;
+  Start = '1;
+  #1 Clk = '0;
+  #1 Clk = '1;
+  Start = '0;
+  #1 Clk = '0;
+  #1 Clk = '1;
+  #1 Clk = '0;
+  #1 Clk = '1;
+  #1 Clk = '0;
+  #1 Clk = '1; */
+
+  #1 Clk = '0;
+  //#1 Clk = '1;
+  Start = '1;
+  BranchRelEn = '1;
+  ALU_flag = '1;
+  TargetOrOffset = 'd10;
+  
+  //#1 Clk = '0;
+  #1 Clk = '1;
+  #1 Clk = '0;
+  #1 Clk = '1;
+   #1 Clk = '0;
+  #1 Clk = '1;
+   #1 Clk = '0;
   #1 Clk = '1;
 
+  $display("Checking that nothing happened during Start");
+  assert (NextInstructionIndex == 'd0);
+ // Start = '0;
+
+  // Advance to simulation time 7, latch values
+ // #1 Clk = '1;
+
   // Advance to simulation time 8, check outputs, prepare next values
-  #1 Clk = '0;
+ // #1 Clk = '0;
   $display("Checking that first Start went to first program");
   assert (NextInstructionIndex == 'd000);
   // No change in inputs
 
   // Advance to simulation time 9, latch values
-  #1 Clk = '1;
+  //#1 Clk = '1;
 
   // Advance to simulation time 10, check outputs, prepare next values
-  #1 Clk = '0;
+ /* #1 Clk = '0;
   $display("Checking that no branch advanced by 1");
   assert (NextInstructionIndex == 'd001);
   BranchAbsEn = '1;
@@ -118,8 +159,14 @@ initial begin
   $display("Checking that relative branch with ALU flag did jump");
   assert (NextInstructionIndex == 'd16);
 
-  $display("All checks passed.");
+  $display("All checks passed."); */
 end
+
+/*always begin
+  #1  Clk = 'b1;
+  #1  Clk = 'b0;
+end */
+
 
 initial begin
   $dumpfile("ProgCtr.vcd");

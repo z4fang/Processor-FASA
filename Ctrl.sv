@@ -91,7 +91,7 @@ always_comb begin
 end
 
 // branch every time instruction = 9'b?????1111;
-assign BranchEn = &Instruction[3:0];
+//assign BranchEn = &Instruction[3:0];
 
 // Maybe define specific types of branches?
 assign TargSel  = Instruction[3:2];
