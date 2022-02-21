@@ -57,9 +57,10 @@ always_ff @(posedge Clk) begin
     // Detect falling edge of Start
     if ((start_r == '1) && (Start == '0)) begin
       case (StartCount)
-        1: ProgCtr <= 'd000;
-        2: ProgCtr <= 'd100;
-        3: ProgCtr <= 'd200;
+        1: ProgCtr <= 'd000;   // program 1
+        2: ProgCtr <= 'd400;   // program 2
+        3: ProgCtr <= 'd800;   // program 3
+        // when start == 3, terminate simulation
         default: ProgCtr <= ProgCtr;
       endcase
     end

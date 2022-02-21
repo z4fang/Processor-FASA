@@ -27,13 +27,22 @@ always_comb begin
   Out = 0;
 
   case(OP)
-    ADD : Out = InputA + InputB;        // add 
+  /*  ADD : Out = InputA + InputB;        // add 
     LSH : Out = {InputA[6:0],SC_in};    // shift left, fill in with SC_in
     // for logical left shift, tie SC_in = 0
     RSH : Out = {1'b0, InputA[7:1]};    // shift right
     XOR : Out = InputA ^ InputB;        // bitwise exclusive OR
     AND : Out = InputA & InputB;        // bitwise AND
-    SUB : Out = InputA + (~InputB) + 1;
+    SUB : Out = InputA + (~InputB) + 1; */
+    ADD : Out = InputA + InputB;        // add 
+    XOR : Out = ^InputB;                // Reduction Or
+    OR  : Out = InputA | InputB;        // Or
+    BGZ : begin
+        Out = (InputA > 0) ? 1'b1:1'b0; // branch. Out = 1 success branch
+        //Out = Jump;
+      end
+    SLL : Out = InputA << InputB;       // shift left logical
+    AND : Out = InputA & InputB;        // AND
     default : Out = 8'bxxxx_xxxx;       // Quickly flag illegal ALU
   endcase
 end

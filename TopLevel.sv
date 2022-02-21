@@ -117,8 +117,8 @@ always_ff @(posedge Clk) begin
 end
 
 always_comb begin
-  should_run_processor = ever_start & ~Start;
-  Active_InstOut = (should_run_processor) ? IR1_InstOut_out : 9'b111_111_111;
+  should_run_processor = ever_start & ~Start; //reset is low, and prog has not start exec prog.
+  Active_InstOut = (should_run_processor) ? IR1_InstOut_out : 9'b111_111_111; // if should run = op code, shouldn't run = done op code
 end
 /////////////////////////////////////////////////////////////////////// Fetch //
 
@@ -160,6 +160,7 @@ RegFile #(.W(8),.A(3)) RF1 (
 
 // Also need to hook up the signal back to the testbench for when we're done.
 assign Ack = should_run_processor & Ctrl1_Ack_out;
+// when start is high, should_run_proc = low, done flag will lower
 ////////////////////////////////////////////////////////////////////// Decode //
 
 
@@ -216,6 +217,6 @@ assign ExMem_RegValue_out = Ctrl1_LoadInst_out ? DM1_DataOut_out : ALU1_Out_out;
 always_ff @(posedge Clk)
   if (Reset)   // if(start) ?
     CycleCount <= 0;
-  else if(Ctrl1_Ack_out == 0)   // if(!halt) ?
+  else if(Ctrl1_Ack_out == 0)   // if(!halt) ? , use Ack?
     CycleCount <= CycleCount + 'b1;
 endmodule
