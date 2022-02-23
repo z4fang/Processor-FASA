@@ -13,7 +13,7 @@ module ALU #(parameter W=8, Ops=3)(
   input        [Ops-1:0] OP,           // ALU opcode, part of microcode
   input                  SC_in,        // shift or carry in
   output logic [W-1:0]   Out,          // data output
-  output logic           Zero,         // output = zero flag    !(Out)
+  output logic           Zero,         // ZERO, use for branch condition. Zero = 1 represents condion met
                          Parity,       // outparity flag        ^(Out)
                          Odd           // output odd flag        (Out[0])
                          // you may provide additional status flags, if desired
