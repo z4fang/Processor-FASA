@@ -7,21 +7,24 @@
 // includes package "Definitions"
 import Definitions::*;
 
-module ALU #(parameter W=8, Ops=3)(
+module ALU #(parameter W=8, Ops=4)(
   input        [W-1:0]   InputA,       // data inputs
                          InputB,
   input        [Ops-1:0] OP,           // ALU opcode, part of microcode
-  input                  SC_in,        // shift or carry in
+  //input                  SC_in,        // shift or carry in
   output logic [W-1:0]   Out,          // data output
-  output logic           Zero,         // ZERO, use for branch condition. Zero = 1 represents condion met
-                         Parity,       // outparity flag        ^(Out)
-                         Odd           // output odd flag        (Out[0])
+
+  output logic           jump;        // jump = 1 when branch is taken
+                          //Zero,         // output = zero flag    !(Out)
+                         //Parity,       // outparity flag        ^(Out)
+                         //Odd           // output odd flag        (Out[0])
                          // you may provide additional status flags, if desired
 );
 
 // type enum: used for convenient waveform viewing
 op_mne op_mnemonic;
 
+assign jump = Out;
 always_comb begin
   // No Op = default
   Out = 0;
@@ -34,22 +37,24 @@ always_comb begin
     XOR : Out = InputA ^ InputB;        // bitwise exclusive OR
     AND : Out = InputA & InputB;        // bitwise AND
     SUB : Out = InputA + (~InputB) + 1; */
-    ADD : Out = InputA + InputB;        // add 
-    XOR : Out = ^InputB;                // Reduction Or
-    OR  : Out = InputA | InputB;        // Or
-    BGZ : begin
-        Out = (InputA > 0) ? 1'b1:1'b0; // branch. Out = 1 success branch
-        //Out = Jump;
-      end
-    SLL : Out = InputA << InputB;       // shift left logical
-    AND : Out = InputA & InputB;        // AND
+    kADD : Out = InputA + InputB;        // add 
+    kXOR : Out = ^InputB;                // Reduction Or
+    kORR : Out = InputA | InputB;        // Or
+    kBEQ : Out = InputA == InputB;
+    kBNE : Out = InputA != InputB;
+    kSLL : Out = InputA << InputB;       // shift left logical
+    kSRL : Out = InputA >> InputB;
+    kXXR : Out = ^InputA^InputB;
+    kSUB : Out = InputA - InputB;
+    KAND : Out = InputA & InputB;        // AND
+
     default : Out = 8'bxxxx_xxxx;       // Quickly flag illegal ALU
   endcase
 end
 
-assign Zero   = ~|Out;                  // reduction NOR
-assign Parity = ^Out;                   // reduction XOR
-assign Odd    = Out[0];                 // odd/even -- just the value of the LSB
+//assign Zero   = ~|Out;                  // reduction NOR
+//assign Parity = ^Out;                   // reduction XOR
+//assign Odd    = Out[0];                 // odd/even -- just the value of the LSB
 
 // Toolchain guard: icarus verilog doesn't support this debug feature.
 `ifndef __ICARUS__
