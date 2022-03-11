@@ -66,7 +66,7 @@ package Definitions;
    // Modern SystemVerilog lets you define types. The advantage
    // of doing this is that tools can preserve type metadata,
    // e.g. enum names will appear in timing diagrams
-   typedef enum logic [2:0] {
+   typedef enum logic [3:0] {
        ADD, XOR, ORR, LOD, STR, BNE, SLL, SRL,
        AND, XXR, CPP, CYY, SUB, BEQ } op_mne;
 endpackage // Definitions

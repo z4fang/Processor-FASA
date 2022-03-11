@@ -14,7 +14,7 @@ module ALU #(parameter W=8, Ops=4)(
   //input                  SC_in,        // shift or carry in
   output logic [W-1:0]   Out,          // data output
 
-  output logic           jump;        // jump = 1 when branch is taken
+  output logic           jump        // jump = 1 when branch is taken
                           //Zero,         // output = zero flag    !(Out)
                          //Parity,       // outparity flag        ^(Out)
                          //Odd           // output odd flag        (Out[0])
@@ -44,9 +44,9 @@ always_comb begin
     kBNE : Out = InputA != InputB;
     kSLL : Out = InputA << InputB;       // shift left logical
     kSRL : Out = InputA >> InputB;
-    kXXR : Out = ^InputA^InputB;
+    kXXR : Out = ^{InputA,InputB};
     kSUB : Out = InputA - InputB;
-    KAND : Out = InputA & InputB;        // AND
+    kAND : Out = InputA & InputB;        // AND
 
     default : Out = 8'bxxxx_xxxx;       // Quickly flag illegal ALU
   endcase
