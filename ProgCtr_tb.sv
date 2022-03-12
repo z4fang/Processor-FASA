@@ -10,7 +10,7 @@ module ProgCtr_tb;
 bit Reset;
 bit Start;
 bit Clk;
-bit BranchAbsEn;
+//bit BranchAbsEn;
 bit BranchRelEn;
 bit ALU_flag;
 bit [9:0] TargetOrOffset;
@@ -21,7 +21,7 @@ ProgCtr uut (
   .Reset(Reset),
   .Start(Start),
   .Clk(Clk),
-  .BranchAbsEn(BranchAbsEn),
+  //.BranchAbsEn(BranchAbsEn),
   .BranchRelEn(BranchRelEn),
   .ALU_flag(ALU_flag),
   .Target(TargetOrOffset),
@@ -41,7 +41,7 @@ initial begin
   Reset = '1;
   Start = '0;
   Clk = '0;
-  BranchAbsEn = '0;
+  //BranchAbsEn = '0;
   BranchRelEn = '0;
   ALU_flag = '0;
   TargetOrOffset = '0;
@@ -68,13 +68,7 @@ initial begin
   Start = '0;
   // Advance to simulation time 6, check results, prepare next values
 
-  // Testing for start, prog 1, 2 ,3
- /* #1 Clk = '0;
-  #1 Clk = '1;
-  Start = '1;
-  #1 Clk = '0;
-  #1 Clk = '1;
-  Start = '0;
+  //Testing for start, prog 1, 2 ,3
   #1 Clk = '0;
   #1 Clk = '1;
   Start = '1;
@@ -89,12 +83,28 @@ initial begin
   Start = '0;
   #1 Clk = '0;
   #1 Clk = '1;
+  Start = '1;
+  #1 Clk = '0;
+  #1 Clk = '1;
+  Start = '0;
   #1 Clk = '0;
   #1 Clk = '1;
   #1 Clk = '0;
-  #1 Clk = '1; */
+  #1 Clk = '1;
+  #1 Clk = '0;
+  #1 Clk = '1; 
+  #1 Clk = '0;
+  BranchRelEn = '1;
+  ALU_flag = '1;
+  TargetOrOffset = 'd60;
+  #1 Clk = '1; 
+  #1 Clk = '0;
+  BranchRelEn = '0;
+  #1 Clk = '1; 
+  #1 Clk = '0;
+  #1 Clk = '1; 
 
-  #1 Clk = '0;
+ /* #1 Clk = '0;
   //#1 Clk = '1;
   Start = '1;
   BranchRelEn = '1;
@@ -108,7 +118,7 @@ initial begin
    #1 Clk = '0;
   #1 Clk = '1;
    #1 Clk = '0;
-  #1 Clk = '1;
+  #1 Clk = '1; */
 
   $display("Checking that nothing happened during Start");
   assert (NextInstructionIndex == 'd0);

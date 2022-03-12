@@ -12,9 +12,10 @@
 module RegFile #(parameter W=8, A=4)(
   input                Clk,
   input                Reset,
-  input                WriteEn,
-  input        [A-1:0] RaddrA,    // address pointers
-  input        [A-1:0] RaddrB,    // address pointers
+  input                WriteEn,   // write reg
+  input                op         // I type?
+  input          [3:0] operation  // Store, Load, CPP, CYY
+  input        [A-1:0] Raddr,    // address pointers
   input        [A-1:0] Waddr,     // address pointers
   input        [W-1:0] DataIn,    // data for registers
   output       [W-1:0] DataOutA,  //   showing two different ways to handle
@@ -38,11 +39,30 @@ logic [W-1:0] Registers[2**A];
 assign      DataOutA = Registers[RaddrA];
 
 // This is MIPS-style registers (i.e. r0 is always read-as-zero)
-always_comb begin
-  if (RaddrB == 0) begin
-    DataOutB = 0;
-  end else begin
-    DataOutB = Registers[RaddrB];
+always_ff @(posedge)begin
+  if (Reset) begin
+    for (i=0; i<2**A; i=i+1) begin
+      Registers[i] <= '0;
+    end
+
+  else if(WriteEn) begin
+    if(op == 1) begin             // load imm
+      Registers[3] <= DataIn;     // r3 special reg for load imm
+    end
+
+    else if(operation == kLOD) begin
+      Registers[Raddr] = DataIn;
+    end
+
+    else if(operation == kCPP) begin
+      Registers[1] <= Registers[Raddr];
+    end
+
+    else if(operation == kCYY) begin
+      Registers[2] <= Registers[Raddr];
+    end
+
+    else Registers[Raddr] <= DataIn;
   end
 end
 
@@ -58,7 +78,8 @@ end
 // sequential (clocked) writes
 //
 // Works just like data_memory writes
-always_ff @ (posedge Clk) begin
+
+/*always_ff @ (posedge Clk) begin
   integer i;
   if (Reset) begin
     for (i=0; i<2**A; i=i+1) begin
@@ -67,7 +88,7 @@ always_ff @ (posedge Clk) begin
   end else if (WriteEn) begin
     Registers[Waddr] <= DataIn;
   end
-end
+end */
 
 
 endmodule

@@ -14,7 +14,7 @@ module ProgCtr #(parameter A=10)(
   input                Reset,       // reset, init, etc. -- force PC to 0
                        Start,       // begin next program in series (request issued by test bench)
                        Clk,         // PC can change on pos. edges only
-                       BranchAbsEn, // jump unconditionally to Target value
+                       //BranchAbsEn, // jump unconditionally to Target value
                        BranchRelEn, // jump conditionally to Target + PC
                        ALU_flag,    // flag from ALU, e.g. Zero, Carry, Overflow, Negative (from ARM)
   input        [A-1:0] Target,      // jump ... "how high?"
@@ -29,10 +29,12 @@ logic start_r;
 always_ff @(posedge Clk) begin
   if(Reset)
     ProgCtr <= 0;                  // for first program; want different value for 2nd or 3rd
-  else if(BranchAbsEn)             // unconditional absolute jump
-    ProgCtr <= Target;             //   how would you make it conditional and/or relative?
+  //else if(BranchAbsEn)             // unconditional absolute jump
+    //ProgCtr <= Target;             //   how would you make it conditional and/or relative?
   else if(BranchRelEn && ALU_flag) // conditional relative jump
-    ProgCtr <= Target + ProgCtr;   //   how would you make it unconditional and/or absolute
+    if(StartCount == 1) ProgCtr <= 0 + Target;   //   Start address of program 1 + target
+    else if(StartCount == 1) ProgCtr <= 200 + Target; // start address of program 2 + target
+    else ProgCtr <= 500 + Target; // start address of prog3 + target
   else
     ProgCtr <= ProgCtr+'b1;        // default increment (no need for ARM/MIPS +4 -- why?)
 
@@ -58,8 +60,8 @@ always_ff @(posedge Clk) begin
     if ((start_r == '1) && (Start == '0)) begin
       case (StartCount)
         1: ProgCtr <= 'd000;   // program 1
-        2: ProgCtr <= 'd400;   // program 2
-        3: ProgCtr <= 'd800;   // program 3
+        2: ProgCtr <= 'd200;   // program 2
+        3: ProgCtr <= 'd500;   // program 3
         // when start == 3, terminate simulation
         default: ProgCtr <= ProgCtr;
       endcase
