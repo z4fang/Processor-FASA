@@ -14,13 +14,14 @@ module RegFile #(parameter W=8, A=4)(
   input                Clk,
   input                Reset,
   input                WriteEn,   // write reg
-  input                op,         // I type?
-  input          [3:0] operation,  // Store, Load, CPP, CYY
-  input        [A-1:0] Raddr,    // address pointers
-  input        [A-1:0] Waddr,     // address pointers
+  input                Op,         // I type?
+  input          [3:0] Operation,  // Store, Load, CPP, CYY
+  input        [A-1:0] Rtaddr,    // regsiter address of rs/rt
+  //input        [A-1:0] Waddr,     // address pointers
   input        [W-1:0] DataIn,    // data for registers
-  output       [W-1:0] DataOutA,  //   showing two different ways to handle
-  output logic [W-1:0] DataOutB   //   DataOutX, for pedagogic reasons only
+  input        [W-1:0] Immediate, // load immediate
+  output logic [W-1:0] DataOutA,  //  Operand1
+  output logic [W-1:0] DataOutB   //  Operand2
 );
 
 
@@ -37,7 +38,10 @@ logic [W-1:0] Registers[2**A];
 //   so `always_comb` is much more versatile
 
 // This is ARM-style registers (i.e. r0 is general purpose)
-assign      DataOutA = Registers[Raddr];
+assign DataOutA = Registers[1];       //ALU operand 1
+assign DataOutB = Registers[2];       //ALU operand 2
+
+
 
 // This is MIPS-style registers (i.e. r0 is always read-as-zero)
 always_ff @(posedge Clk)begin
@@ -49,22 +53,22 @@ always_ff @(posedge Clk)begin
 
   else if(WriteEn) begin
     if(op == 1) begin             // load imm
-      Registers[3] <= DataIn;     // r3 special reg for load imm
+      Registers[3] <= Immediate;     // r3 special reg for load imm
     end
 
     else if(operation == kLOD) begin
-      Registers[Raddr] = DataIn;
+      Registers[Rtaddr] = DataIn;
     end
 
     else if(operation == kCPP) begin
-      Registers[1] <= Registers[Raddr];
+      Registers[1] <= Registers[Rtaddr];
     end
 
     else if(operation == kCYY) begin
-      Registers[2] <= Registers[Raddr];
+      Registers[2] <= Registers[Rtaddr];
     end
 
-    else Registers[Raddr] <= DataIn;
+    else Registers[Rtaddr] <= DataIn;
   end
 end
 

@@ -15,7 +15,7 @@
 module DataMem #(parameter W=8, A=8) (
   input                 Clk,
                         Reset,
-                        WriteEn,
+                        WriteEn,    // writing mem
   input       [A-1:0]   DataAddress, // A-bit-wide pointer to 256-deep memory
   input       [W-1:0]   DataIn,      // W-bit-wide data path, also
   output logic[W-1:0]   DataOut
@@ -43,9 +43,10 @@ always_ff @ (posedge Clk)
   // you may omit the `if (Reset) ... else` and go straight to `if(WriteEn)`
   */
 
-  if(Reset) begin
+  //if(Reset) begin
     // Usually easier to initialize memory by reading from file, as above.
-  end else if(WriteEn) begin
+  //end 
+  if(WriteEn) begin
     // Do the actual writes
     Core[DataAddress] <= DataIn;
   end

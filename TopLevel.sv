@@ -44,13 +44,14 @@ wire [ 9:0] PC1_ProgCtr_out;  // the program counter
 wire [ 9:0] LUT1_Target_out;  // Target of branch/jump
 
 // Control block outputs
-logic       Ctrl1_Jump_out;      // to program counter: jump
+//logic       Ctrl1_Jump_out;      // to program counter: jump
 logic       Ctrl1_BranchEn_out;  // to program counter: branch enable
 logic       Ctrl1_RegWrEn_out;   // reg_file write enable
 logic       Ctrl1_MemWrEn_out;   // data_memory write enable
 logic       Ctrl1_LoadInst_out;  // TODO: Why both of these?
 logic       Ctrl1_Ack_out;       // Done with program?
 logic [1:0] Ctrl1_TargSel_out;   // one trick to help with target range
+logic        Jump;
 
 // Register file outputs
 logic [7:0] RF1_DataOutA_out; // Contents of first selected register
@@ -58,9 +59,9 @@ logic [7:0] RF1_DataOutB_out; // Contents of second selected register
 
 // ALU outputs
 logic [7:0] ALU1_Out_out;
-logic       ALU1_Zero_out;
-logic       ALU1_Parity_out;
-logic       ALU1_Odd_out;
+//logic       ALU1_Zero_out;
+//logic       ALU1_Parity_out;
+//logic       ALU1_Odd_out;
 
 // Data Memory outputs
 logic [7:0] DM1_DataOut_out;  // data out from data_memory
@@ -91,9 +92,9 @@ ProgCtr PC1 (
   .Reset       (Reset),              // reset to 0
   .Start       (Start),              // Your PC will have to do something smart with this
   .Clk         (Clk),                // System CLK
-  .BranchAbsEn (Ctrl1_Jump_out),     // jump enable
+  //.BranchAbsEn (Ctrl1_Jump_out),   // jump enable
   .BranchRelEn (Ctrl1_BranchEn_out), // branch enable
-  .ALU_flag    (ALU1_Zero_out),      // Maybe your PC will find this useful
+  .ALU_flag    (Jump),               // Maybe your PC will find this useful
   .Target      (LUT1_Target_out),    // "where to?" or "how far?" during a jump or branch
   .ProgCtr     (PC1_ProgCtr_out)     // program count = index to instruction memory
 );
@@ -145,9 +146,12 @@ RegFile #(.W(8),.A(3)) RF1 (
   .Clk       (Clk),
   .Reset     (Reset),
   .WriteEn   (Ctrl1_RegWrEn_out),
-  .RaddrA    (Active_InstOut[5:3]),      // See example below on how 3 opcode bits
-  .RaddrB    (Active_InstOut[2:0]),      // could address 16 registers...
-  .Waddr     (Active_InstOut[5:3]),      // mux above
+  .Op        (Active_InstOut[8]),                  // R-type or I-tyoe
+  .Operation (Active_InstOut[7:4]),       // Operation/arithmetic performing
+  .Rtaddr    (Active_InstOut[0:4]),      // rs/rt
+  //.RaddrB    (Active_InstOut[2:0]),      // could address 16 registers...
+  //.Waddr     (Active_InstOut[5:3]),      // mux above
+  .Immediate (Active_InstOut[7:0])
   .DataIn    (ExMem_RegValue_out),
   .DataOutA  (RF1_DataOutA_out),
   .DataOutB  (RF1_DataOutB_out)
@@ -183,20 +187,21 @@ assign InB = RF1_DataOutB_out;     // interject switch/mux if needed/desired
 ALU ALU1 (
   .InputA  (InA),
   .InputB  (InB),
-  .SC_in   (1'b1),
-  .OP      (Active_InstOut[8:6]),
+ // .SC_in   (1'b1),
+  .OP      (Active_InstOut[7:4]),
   .Out     (ALU1_Out_out),
-  .Zero    (ALU1_Zero_out),
-  .Parity  (ALU1_Parity_out),
-  .Odd     (ALU1_Odd_out)
+ // .Zero    (ALU1_Zero_out),
+  //.Parity  (ALU1_Parity_out),
+  //.Odd     (ALU1_Odd_out)
+  .Jump(jump)
 );
 
 
 DataMem DM1(
   .DataAddress  (RF1_DataOutB_out),
   .WriteEn      (Ctrl1_MemWrEn_out),
-  .DataIn       (RF1_DataOutA_out),
-  .DataOut      (DM1_DataOut_out),
+  .DataIn       (RF1_DataOutA_out),    //value write to mem
+  .DataOut      (DM1_DataOut_out),    // value read from mem
   .Clk          (Clk),
   .Reset        (Reset)
 );
