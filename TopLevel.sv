@@ -151,7 +151,7 @@ RegFile #(.W(8),.A(3)) RF1 (
   .WriteEn   (Ctrl1_RegWrEn_out),
   .Op        (Active_InstOut[8]),                  // R-type or I-tyoe
   .Operation (Active_InstOut[7:4]),       // Operation/arithmetic performing
-  .Rtaddr    (Active_InstOut[0:4]),      // rs/rt
+  .Rtaddr    (Active_InstOut[4:0]),      // rs/rt
   //.RaddrB    (Active_InstOut[2:0]),      // could address 16 registers...
   //.Waddr     (Active_InstOut[5:3]),      // mux above
   .Immediate (Active_InstOut[7:0]),
