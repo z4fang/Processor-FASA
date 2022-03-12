@@ -58,7 +58,7 @@ logic        Jump;
 logic [7:0] RF1_DataOutA_out; // Contents of first selected register
 logic [7:0] RF1_DataOutB_out; // Contents of second selected register
 logic [7:0] RF1_ReadAddr;   // address store in r0
-wire [ 9:0] RegOut_Target;  // Target of branch/jump
+wire  [7:0] RegOut_Target;  // Target of branch/jump
 
 // ALU outputs
 logic [7:0] ALU1_Out_out;
@@ -151,7 +151,7 @@ RegFile #(.W(8),.A(4)) RF1 (
   .WriteEn   (Ctrl1_RegWrEn_out),
   .Op        (Active_InstOut[8]),                  // R-type or I-tyoe
   .Operation (Active_InstOut[7:4]),       // Operation/arithmetic performing
-  .Rtaddr    (Active_InstOut[4:0]),      // rs/rt
+  .Rtaddr    (Active_InstOut[3:0]),      // rs/rt
   //.RaddrB    (Active_InstOut[2:0]),      // could address 16 registers...
   //.Waddr     (Active_InstOut[5:3]),      // mux above
   .Immediate (Active_InstOut[7:0]),
