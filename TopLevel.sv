@@ -145,7 +145,7 @@ Ctrl Ctrl1 (
 
 // Register file
 // A(3) makes this 2**3=8 elements deep
-RegFile #(.W(8),.A(3)) RF1 (
+RegFile #(.W(8),.A(4)) RF1 (
   .Clk       (Clk),
   .Reset     (Reset),
   .WriteEn   (Ctrl1_RegWrEn_out),
