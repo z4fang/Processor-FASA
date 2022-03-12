@@ -154,7 +154,7 @@ RegFile #(.W(8),.A(3)) RF1 (
   .Rtaddr    (Active_InstOut[0:4]),      // rs/rt
   //.RaddrB    (Active_InstOut[2:0]),      // could address 16 registers...
   //.Waddr     (Active_InstOut[5:3]),      // mux above
-  .Immediate (Active_InstOut[7:0])
+  .Immediate (Active_InstOut[7:0]),
   .DataIn    (ExMem_RegValue_out),
   .DataOutA  (RF1_DataOutA_out),
   .DataOutB  (RF1_DataOutB_out),
@@ -205,7 +205,7 @@ ALU ALU1 (
 
 DataMem DM1(
   .Clk          (Clk),
-  .Reset        (Reset)
+  .Reset        (Reset),
   .WriteEn      (Ctrl1_MemWrEn_out),
   .DataAddress  (RF1_ReadAddr),
   .DataIn       (RF1_DataOutA_out),    //value write to mem
