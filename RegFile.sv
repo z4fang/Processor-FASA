@@ -55,11 +55,11 @@ always_ff @(posedge Clk)begin
   end
 
   else if(WriteEn) begin
-    if(op == 1) begin             // load imm
+    if(Op == 1) begin             // load imm
       Registers[3] <= Immediate;     // r3 special reg for load imm
     end
 
-    else if(operation == kLOD) begin
+    else if(Operation == kLOD) begin
       Registers[Rtaddr] = DataIn;
     end
 
