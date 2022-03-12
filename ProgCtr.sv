@@ -17,7 +17,7 @@ module ProgCtr #(parameter A=10)(
                        //BranchAbsEn, // jump unconditionally to Target value
                        BranchRelEn, // jump conditionally to Target + PC
                        ALU_flag,    // flag from ALU, if branch condition met
-  input        [A-1:0] Target,      // jump ... "how high?"
+  input        [7:0] Target,      // jump ... "how high?"
   output logic [A-1:0] ProgCtr      // the program counter register itself
 );
 

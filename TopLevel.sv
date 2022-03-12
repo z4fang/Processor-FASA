@@ -58,7 +58,7 @@ logic        Jump;
 logic [7:0] RF1_DataOutA_out; // Contents of first selected register
 logic [7:0] RF1_DataOutB_out; // Contents of second selected register
 logic [7:0] RF1_ReadAddr;   // address store in r0
-wire  [7:0] RegOut_Target;  // Target of branch/jump
+logic [7:0] RegOut_Target;  // Target of branch/jump
 
 // ALU outputs
 logic [7:0] ALU1_Out_out;
