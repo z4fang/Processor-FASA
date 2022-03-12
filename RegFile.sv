@@ -21,7 +21,9 @@ module RegFile #(parameter W=8, A=4)(
   input        [W-1:0] DataIn,    // data for registers
   input        [W-1:0] Immediate, // load immediate
   output logic [W-1:0] DataOutA,  //  Operand1
-  output logic [W-1:0] DataOutB   //  Operand2
+  output logic [W-1:0] DataOutB,   //  Operand2
+  output logic [W-1:0] DataOutTarget, // contain address for branching
+  output logic [W-1:0] DataOutReadAdd
 );
 
 
@@ -40,7 +42,8 @@ logic [W-1:0] Registers[2**A];
 // This is ARM-style registers (i.e. r0 is general purpose)
 assign DataOutA = Registers[1];       //ALU operand 1
 assign DataOutB = Registers[2];       //ALU operand 2
-
+assign DataOutTarget = Registers[Rtaddr];
+assign DataOutReadAdd = Registers[0];
 
 
 // This is MIPS-style registers (i.e. r0 is always read-as-zero)

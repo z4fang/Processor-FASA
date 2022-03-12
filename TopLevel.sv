@@ -41,7 +41,8 @@ wire [ 9:0] PC1_ProgCtr_out;  // the program counter
 // n.b. "LUT" is a pretty generic name, a nice example
 // of how to do a LUT, but your core should call this
 // something more informative probably...
-wire [ 9:0] LUT1_Target_out;  // Target of branch/jump
+
+wire [ 9:0] RegOut_Target;  // Target of branch/jump
 
 // Control block outputs
 //logic       Ctrl1_Jump_out;      // to program counter: jump
@@ -56,6 +57,7 @@ logic        Jump;
 // Register file outputs
 logic [7:0] RF1_DataOutA_out; // Contents of first selected register
 logic [7:0] RF1_DataOutB_out; // Contents of second selected register
+logic [7:0] RF1_ReadAddr;
 
 // ALU outputs
 logic [7:0] ALU1_Out_out;
@@ -95,15 +97,15 @@ ProgCtr PC1 (
   //.BranchAbsEn (Ctrl1_Jump_out),   // jump enable
   .BranchRelEn (Ctrl1_BranchEn_out), // branch enable
   .ALU_flag    (Jump),               // Maybe your PC will find this useful
-  .Target      (LUT1_Target_out),    // "where to?" or "how far?" during a jump or branch
+  .Target      (RegOut_Target),    // "where to?" or "how far?" during a jump or branch
   .ProgCtr     (PC1_ProgCtr_out)     // program count = index to instruction memory
 );
 
 // this is one way to 'expand' the range of jumps available
-LUT LUT1(
+/*LUT LUT1(
   .Addr         (Ctrl1_TargSel_out),
   .Target       (LUT1_Target_out)
-);
+); */
 
 
 // Note that it may be simpler to handle Start here; depends on your design!
@@ -131,13 +133,13 @@ end
 // Control decoder
 Ctrl Ctrl1 (
   .Instruction  (Active_InstOut),     // from instr_ROM
-  .Jump         (Ctrl1_Jump_out),     // to PC to handle jump/branch instructions
+  //.Jump         (Ctrl1_Jump_out),     // to PC to handle jump/branch instructions
   .BranchEn     (Ctrl1_BranchEn_out), // to PC
   .RegWrEn      (Ctrl1_RegWrEn_out),  // register file write enable
   .MemWrEn      (Ctrl1_MemWrEn_out),  // data memory write enable
   .LoadInst     (Ctrl1_LoadInst_out), // selects memory vs ALU output as data input to reg_file
   .Ack          (Ctrl1_Ack_out),      // "done" flag
-  .TargSel      (Ctrl1_TargSel_out)   // index into lookup table
+  //.TargSel      (Ctrl1_TargSel_out)   // index into lookup table
 );
 
 // Register file
@@ -154,7 +156,10 @@ RegFile #(.W(8),.A(3)) RF1 (
   .Immediate (Active_InstOut[7:0])
   .DataIn    (ExMem_RegValue_out),
   .DataOutA  (RF1_DataOutA_out),
-  .DataOutB  (RF1_DataOutB_out)
+  .DataOutB  (RF1_DataOutB_out),
+  .DataOutTarget  (Target),
+  .DataOutReadAdd (RF1_ReadAddr)
+
 );
 // Here's a neat trick:
 //   one pointer, two adjacent read accesses:
@@ -198,7 +203,7 @@ ALU ALU1 (
 
 
 DataMem DM1(
-  .DataAddress  (RF1_DataOutB_out),
+  .DataAddress  (RF1_ReadAddr),
   .WriteEn      (Ctrl1_MemWrEn_out),
   .DataIn       (RF1_DataOutA_out),    //value write to mem
   .DataOut      (DM1_DataOut_out),    // value read from mem
