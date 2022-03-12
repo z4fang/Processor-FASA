@@ -14,7 +14,7 @@ module ALU #(parameter W=8, Ops=4)(
   //input                  SC_in,        // shift or carry in
   output logic [W-1:0]   Out,          // data output
 
-  output logic           jump        // jump = 1 when branch is taken
+  output logic           Jump        // jump = 1 when branch is taken
                           //Zero,         // output = zero flag    !(Out)
                          //Parity,       // outparity flag        ^(Out)
                          //Odd           // output odd flag        (Out[0])
@@ -24,11 +24,10 @@ module ALU #(parameter W=8, Ops=4)(
 // type enum: used for convenient waveform viewing
 op_mne op_mnemonic;
 
-assign jump = Out;
+assign Jump = Out;
 always_comb begin
   // No Op = default
   Out = 0;
-
   case(OP)
   /*  ADD : Out = InputA + InputB;        // add 
     LSH : Out = {InputA[6:0],SC_in};    // shift left, fill in with SC_in

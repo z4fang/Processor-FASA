@@ -42,8 +42,8 @@ logic [W-1:0] Registers[2**A];
 // This is ARM-style registers (i.e. r0 is general purpose)
 assign DataOutA = Registers[1];       //ALU operand 1
 assign DataOutB = Registers[2];       //ALU operand 2
-assign DataOutTarget = Registers[Rtaddr];
-assign DataOutReadAdd = Registers[0];
+assign DataOutTarget = Registers[Rtaddr]; // for branch
+assign DataOutReadAdd = Registers[0];  // r0 = mem address
 
 
 // This is MIPS-style registers (i.e. r0 is always read-as-zero)
@@ -63,11 +63,11 @@ always_ff @(posedge Clk)begin
       Registers[Rtaddr] = DataIn;
     end
 
-    else if(operation == kCPP) begin
+    else if(Operation == kCPP) begin
       Registers[1] <= Registers[Rtaddr];
     end
 
-    else if(operation == kCYY) begin
+    else if(Operation == kCYY) begin
       Registers[2] <= Registers[Rtaddr];
     end
 

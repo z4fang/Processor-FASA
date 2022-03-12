@@ -42,7 +42,7 @@ wire [ 9:0] PC1_ProgCtr_out;  // the program counter
 // of how to do a LUT, but your core should call this
 // something more informative probably...
 
-wire [ 9:0] RegOut_Target;  // Target of branch/jump
+
 
 // Control block outputs
 //logic       Ctrl1_Jump_out;      // to program counter: jump
@@ -57,7 +57,8 @@ logic        Jump;
 // Register file outputs
 logic [7:0] RF1_DataOutA_out; // Contents of first selected register
 logic [7:0] RF1_DataOutB_out; // Contents of second selected register
-logic [7:0] RF1_ReadAddr;
+logic [7:0] RF1_ReadAddr;   // address store in r0
+wire [ 9:0] RegOut_Target;  // Target of branch/jump
 
 // ALU outputs
 logic [7:0] ALU1_Out_out;
@@ -138,7 +139,7 @@ Ctrl Ctrl1 (
   .RegWrEn      (Ctrl1_RegWrEn_out),  // register file write enable
   .MemWrEn      (Ctrl1_MemWrEn_out),  // data memory write enable
   .LoadInst     (Ctrl1_LoadInst_out), // selects memory vs ALU output as data input to reg_file
-  .Ack          (Ctrl1_Ack_out),      // "done" flag
+  .Ack          (Ctrl1_Ack_out)      // "done" flag
   //.TargSel      (Ctrl1_TargSel_out)   // index into lookup table
 );
 
@@ -157,7 +158,7 @@ RegFile #(.W(8),.A(3)) RF1 (
   .DataIn    (ExMem_RegValue_out),
   .DataOutA  (RF1_DataOutA_out),
   .DataOutB  (RF1_DataOutB_out),
-  .DataOutTarget  (Target),
+  .DataOutTarget  (RegOut_Target),
   .DataOutReadAdd (RF1_ReadAddr)
 
 );
@@ -198,17 +199,17 @@ ALU ALU1 (
  // .Zero    (ALU1_Zero_out),
   //.Parity  (ALU1_Parity_out),
   //.Odd     (ALU1_Odd_out)
-  .Jump(jump)
+  .Jump(Jump)
 );
 
 
 DataMem DM1(
-  .DataAddress  (RF1_ReadAddr),
-  .WriteEn      (Ctrl1_MemWrEn_out),
-  .DataIn       (RF1_DataOutA_out),    //value write to mem
-  .DataOut      (DM1_DataOut_out),    // value read from mem
   .Clk          (Clk),
   .Reset        (Reset)
+  .WriteEn      (Ctrl1_MemWrEn_out),
+  .DataAddress  (RF1_ReadAddr),
+  .DataIn       (RF1_DataOutA_out),    //value write to mem
+  .DataOut      (DM1_DataOut_out)   // value read from mem
 );
 
 // An output mux from this block, are we using the ALU result or the memory

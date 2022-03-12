@@ -16,7 +16,7 @@ module ProgCtr #(parameter A=10)(
                        Clk,         // PC can change on pos. edges only
                        //BranchAbsEn, // jump unconditionally to Target value
                        BranchRelEn, // jump conditionally to Target + PC
-                       ALU_flag,    // flag from ALU, e.g. Zero, Carry, Overflow, Negative (from ARM)
+                       ALU_flag,    // flag from ALU, if branch condition met
   input        [A-1:0] Target,      // jump ... "how high?"
   output logic [A-1:0] ProgCtr      // the program counter register itself
 );
