@@ -29,8 +29,9 @@ module Ctrl (
 
 
 
-assign MemWrEn = Instruction[7:4] == 4'b0100;  //0100 = store inst
-assign LoadInst = Instruction[7:4] == 4'b0011;  //0011 = load instr
+//assign MemWrEn = Instruction[7:4] == 4'b0100;  //0100 = store inst
+//assign LoadInst = Instruction[7:4] == 4'b0011;  //0011 = load instr
+
 
 // reserve instruction = 9'b111111111; for Ack , done instruction
 assign Ack = &Instruction;  
