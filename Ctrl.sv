@@ -18,7 +18,7 @@ module Ctrl (
                      RegWrEn,  // write to reg_file (common)
                      MemWrEn,  // write to mem (store only)
                      LoadInst, // mem or ALU to reg_file ?
-                     Ack,      // "done with program"
+                     Ack      // "done with program"
   //output logic [1:0] TargSel   // how to target branch (maybe?)
 );
 
