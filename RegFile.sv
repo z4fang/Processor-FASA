@@ -13,8 +13,8 @@ module RegFile #(parameter W=8, A=4)(
   input                Clk,
   input                Reset,
   input                WriteEn,   // write reg
-  input                op         // I type?
-  input          [3:0] operation  // Store, Load, CPP, CYY
+  input                op,         // I type?
+  input          [3:0] operation,  // Store, Load, CPP, CYY
   input        [A-1:0] Raddr,    // address pointers
   input        [A-1:0] Waddr,     // address pointers
   input        [W-1:0] DataIn,    // data for registers
