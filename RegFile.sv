@@ -36,7 +36,7 @@ logic [W-1:0] Registers[2**A];
 //   so `always_comb` is much more versatile
 
 // This is ARM-style registers (i.e. r0 is general purpose)
-assign      DataOutA = Registers[RaddrA];
+assign      DataOutA = Registers[Raddr];
 
 // This is MIPS-style registers (i.e. r0 is always read-as-zero)
 always_ff @(posedge)begin
