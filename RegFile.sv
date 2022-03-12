@@ -39,9 +39,9 @@ logic [W-1:0] Registers[2**A];
 assign      DataOutA = Registers[Raddr];
 
 // This is MIPS-style registers (i.e. r0 is always read-as-zero)
-always_ff @(posedge)begin
+always_ff @(posedge Clk)begin
   if (Reset) begin
-    for (i=0; i<2**A; i=i+1) begin
+    for (int i=0; i<2**A; i=i+1) begin
       Registers[i] <= '0;
     end
 
