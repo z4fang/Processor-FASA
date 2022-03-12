@@ -9,6 +9,7 @@
 // any-depth `reg_file`: just override the params!
 //   W = data path width          <-- [WI22 Requirement: max(W)=8]
 //   A = address pointer width    <-- [WI22 Requirement: max(A)=4]
+import Definitions::*;
 module RegFile #(parameter W=8, A=4)(
   input                Clk,
   input                Reset,
