@@ -33,7 +33,7 @@ always_ff @(posedge Clk) begin
     //ProgCtr <= Target;             //   how would you make it conditional and/or relative?
   else if(BranchRelEn && ALU_flag) // conditional relative jump
     if(StartCount == 1) ProgCtr <= 0 + Target;   //   Start address of program 1 + target
-    else if(StartCount == 1) ProgCtr <= 200 + Target; // start address of program 2 + target
+    else if(StartCount == 2) ProgCtr <= 200 + Target; // start address of program 2 + target
     else ProgCtr <= 500 + Target; // start address of prog3 + target
   else
     ProgCtr <= ProgCtr+'b1;        // default increment (no need for ARM/MIPS +4 -- why?)

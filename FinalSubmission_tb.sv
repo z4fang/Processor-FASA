@@ -43,7 +43,7 @@ initial begin
 
   // Load the "golden image" data memory once at the beginning
   // Did you choose the 11-bit or 16-bit interpretation for Program 2?
-  $readmemh("C:/Users/Ken/Documents/GitHub/CSE141L/datamem/data_mem_01-golden-P2_11.hex", DataMemoryAtFinish);
+  $readmemh("data_mem_01-golden-P2_11.hex", DataMemoryAtFinish);
   //$readmemh("data_mem_01-golden-P2_16.hex", DataMemoryAtFinish);
 
   // De-assert Reset, Assert Start to "load" P1 as-needed
@@ -67,12 +67,12 @@ initial begin
     if (DUT.DM1.Core[j] == DataMemoryAtFinish[j])
       $display("    DM[%d] - Good.", j);
     else
-      $display("!!! DM[%d] - WRONG. Expected 0x%02h  Got 0x%02h", j, DataMemoryAtFinish[j], DUT.DM1.Core[j]);
+      $display("!!! DM[%d] - WRONG. Expected 0x%b  Got 0x%b", j, DataMemoryAtFinish[j], DUT.DM1.Core[j]);
   end
 
   // Display any relevant diagnostic or performance measurments for P1
   $display("last instruction = %d", DUT.PC1.ProgCtr);
-
+   #10 $stop;
 
 
   // Assert Start to "load" P2 as-needed
