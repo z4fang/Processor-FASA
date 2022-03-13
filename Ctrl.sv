@@ -34,7 +34,7 @@ module Ctrl (
 
 
 // reserve instruction = 9'b111111111; for Ack , done instruction
-assign Ack = &Instruction;  
+assign Ack = &Instruction;
 
 // jump on right shift that generates a zero
 // equiv to simply: assign Jump = Instruction[2:0] == RSH;

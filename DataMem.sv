@@ -23,14 +23,13 @@ module DataMem #(parameter W=8, A=8) (
 
 // 8x256 two-dimensional array -- the memory itself
 logic [W-1:0] Core[0:2**A-1];
-
 // reads are combinational
 always_comb
   DataOut = Core[DataAddress];
 
 // Load the initial contents of memory
 initial begin
-  //$readmemh("../data_mem.hex", Core);
+  $readmemh("C:/Users/Ken/Documents/GitHub/CSE141L/data_mem_01-golden-P2_11.hex", Core);
 end
 
 // writes are sequential
@@ -43,10 +42,12 @@ always_ff @ (posedge Clk)
   // you may omit the `if (Reset) ... else` and go straight to `if(WriteEn)`
   */
 
-  //if(Reset) begin
+ /* if(Reset) begin
     // Usually easier to initialize memory by reading from file, as above.
-  //end 
-  if(WriteEn) begin
+    $readmemh("data_mem_01-golden-P2_11.hex", Core);
+	end */
+  
+   if(WriteEn) begin
     // Do the actual writes
     Core[DataAddress] <= DataIn;
   end
