@@ -64,7 +64,7 @@ initial begin
   // So you are probably better off with an absolute path,
   // but you will have to change this example path when you
   // try this on your machine most likely:
-  $readmemb("C:/Users/Ken/Desktop/inst_mem.hex", inst_rom);
+  $readmemb("C:/Users/Ken/Desktop/test_mem.hex", inst_rom);
 end
 
 

@@ -60,7 +60,7 @@ always_ff @(posedge Clk) begin
     if ((start_r == '1) && (Start == '0)) begin
       case (StartCount)
         1: ProgCtr <= 'd000;   // program 1
-        2: ProgCtr <= 'd200;   // program 2
+        2: ProgCtr <= 'd150;   // program 2
         3: ProgCtr <= 'd500;   // program 3
         // when start == 3, terminate simulation
         default: ProgCtr <= ProgCtr;

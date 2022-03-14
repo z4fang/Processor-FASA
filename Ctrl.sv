@@ -39,7 +39,14 @@ assign Ack = &Instruction;
 // jump on right shift that generates a zero
 // equiv to simply: assign Jump = Instruction[2:0] == RSH;
 always_comb begin
-   if(Instruction[7:4] == kSTR) begin
+  if(Instruction[8] == 1) begin
+      BranchEn = 0;
+      RegWrEn = 1;
+      MemWrEn = 0;
+      LoadInst = 0;
+    end
+
+   else if(Instruction[7:4] == kSTR) begin
       BranchEn = 0;
       RegWrEn = 0;
       MemWrEn = 1;

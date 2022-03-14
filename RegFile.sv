@@ -60,7 +60,7 @@ always_ff @(posedge Clk)begin
     end
 
     else if(Operation == kLOD) begin
-      Registers[Rtaddr] = DataIn;
+      Registers[Rtaddr] <= DataIn;
     end
 
     else if(Operation == kCPP) begin
