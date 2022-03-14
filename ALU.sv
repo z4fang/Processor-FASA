@@ -37,13 +37,13 @@ always_comb begin
     AND : Out = InputA & InputB;        // bitwise AND
     SUB : Out = InputA + (~InputB) + 1; */
     kADD : Out = InputA + InputB;        // add 
-    kXOR : Out = ^InputB;                // Reduction Or
+    kXOR : Out = InputA^InputB;          // Bitwise XOr
     kORR : Out = InputA | InputB;        // Or
     kBEQ : Out = InputA == InputB;
     kBNE : Out = InputA != InputB;
     kSLL : Out = InputA << InputB;       // shift left logical
     kSRL : Out = InputA >> InputB;
-    kXXR : Out = ^{InputA,InputB};
+    kXXR : Out = ^{InputA,InputB};       // Reduction XOR
     kSUB : Out = InputA - InputB;
     kAND : Out = InputA & InputB;        // AND
 

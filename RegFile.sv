@@ -40,7 +40,7 @@ logic [W-1:0] Registers[2**A];
 //   so `always_comb` is much more versatile
 
 // This is ARM-style registers (i.e. r0 is general purpose)
-assign DataOutA = Registers[1];       //ALU operand 1
+assign DataOutA = (Operation==kSTR)?Registers[Rtaddr]:Registers[1];       //ALU operand 1
 assign DataOutB = Registers[2];       //ALU operand 2
 assign DataOutTarget = Registers[Rtaddr]; // for branch
 assign DataOutReadAdd = Registers[0];  // r0 = mem address
