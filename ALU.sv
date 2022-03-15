@@ -39,7 +39,7 @@ always_comb begin
     kADD : Out = InputA + InputB;        // add 
     kXOR : Out = InputA^InputB;          // Bitwise XOr
     kORR : Out = InputA | InputB;        // Or
-    kBEQ : Out = InputA == InputB;
+    kBGT : Out = InputA > InputB;
     kBNE : Out = InputA != InputB;
     kSLL : Out = InputA << InputB;       // shift left logical
     kSRL : Out = InputA >> InputB;

@@ -60,7 +60,7 @@ always_comb begin
       LoadInst = 1;
     end
 
-    else if(Instruction[7:4] == kBNE || Instruction[7:4] == kBEQ ) begin
+    else if(Instruction[7:4] == kBNE || Instruction[7:4] == kBGT ) begin
       BranchEn = 1;
       RegWrEn = 0;
       MemWrEn = 0;
