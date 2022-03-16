@@ -30,6 +30,7 @@ four special register. r0 for memory operation(load and store), r1 and r2 for ar
 1011 - CYY (Copy a value from another rs to r2)
 1100 - SUB (r1 subtract r2 and store in rt)
 1101 - BGT (if r1 is > r2 branch to start address+rs, if not stay)
+1110 - EQL(if r1 == r2, rt = 1 else rt = 0).
 </pre>
 
 *Example*
