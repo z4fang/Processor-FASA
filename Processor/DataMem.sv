@@ -29,7 +29,7 @@ always_comb
 
 // Load the initial contents of memory
 initial begin
-  $readmemh("C:/Users/Ken/Documents/GitHub/CSE141L/data_mem_03-golden-P2_16.hex", Core);
+  $readmemh("C:/Users/Ken/Documents/GitHub/CSE141L/data_mem_02-initial.hex", Core);
 end
 
 // writes are sequential

@@ -158,8 +158,8 @@ RegFile #(.W(8),.A(4)) RF1 (
   .DataIn    (ExMem_RegValue_out),
   .DataOutA  (RF1_DataOutA_out),
   .DataOutB  (RF1_DataOutB_out),
-  .DataOutTarget  (RegOut_Target),
-  .DataOutReadAdd (RF1_ReadAddr)
+  .DataOutTarget  (RegOut_Target)
+  //.DataOutReadAdd (RF1_ReadAddr)
 
 );
 // Here's a neat trick:
@@ -207,7 +207,7 @@ DataMem DM1(
   .Clk          (Clk),
   .Reset        (Reset),
   .WriteEn      (Ctrl1_MemWrEn_out),
-  .DataAddress  (RF1_ReadAddr),
+  .DataAddress  (RF1_DataOutB_out),
   .DataIn       (RF1_DataOutA_out),    //value write to mem
   .DataOut      (DM1_DataOut_out)   // value read from mem
 );

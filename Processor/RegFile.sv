@@ -22,8 +22,8 @@ module RegFile #(parameter W=8, A=4)(
   input        [W-1:0] Immediate, // load immediate
   output logic [W-1:0] DataOutA,  //  Operand1
   output logic [W-1:0] DataOutB,   //  Operand2
-  output logic [W-1:0] DataOutTarget, // contain address for branching
-  output logic [W-1:0] DataOutReadAdd
+  output logic [W-1:0] DataOutTarget // contain address for branching
+  //output logic [W-1:0] DataOutReadAdd
 );
 
 
@@ -40,10 +40,30 @@ logic [W-1:0] Registers[2**A];
 //   so `always_comb` is much more versatile
 
 // This is ARM-style registers (i.e. r0 is general purpose)
-assign DataOutA = (Operation==kSTR)?Registers[Rtaddr]:Registers[1];       //ALU operand 1
-assign DataOutB = Registers[2];       //ALU operand 2
-assign DataOutTarget = Registers[Rtaddr]; // for branch
-assign DataOutReadAdd = Registers[0];  // r0 = mem address
+//assign DataOutA = (Operation==kSTR)?Registers[Rtaddr]:Registers[1];       //ALU operand 1
+//assign DataOutB = Registers[2];       //ALU operand 2
+//assign DataOutTarget = Registers[Rtaddr]; // for branch
+//assign DataOutReadAdd = Registers[0];  // r0 = mem address
+
+always_ff @(posedge Clk) begin
+  if(Operation==kSTR || Operation == kLOD) begin 
+    DataOutA = Registers[Rtaddr];
+    DataOutB = Registers[0];
+  end
+
+  else if(Operation == kBNE || Operation == kBGT) begin 
+    DataOutA = Registers[1];
+    DataOutB = Registers[2];
+    DataOutTarget = Registers[Rtaddr];
+  end
+
+  else begin
+    DataOutA = Registers[1];
+    DataOutB = Registers[2];
+  end
+
+
+end
 
 
 // This is MIPS-style registers (i.e. r0 is always read-as-zero)
