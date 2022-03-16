@@ -56,6 +56,7 @@ package Definitions;
     const logic [3:0]kCYY  = 4'b1011;
     const logic [3:0]kSUB  = 4'b1100;
     const logic [3:0]kBGT  = 4'b1101;
+    const logic [3:0]kEQL  = 4'b1110;
     const logic kRTYPE     = 1'b0;
     const logic kITYPE     = 1'b1;
     //const logic [3:0]kLDI  = 1'b1;
@@ -68,5 +69,5 @@ package Definitions;
    // e.g. enum names will appear in timing diagrams
    typedef enum logic [3:0] {
        ADD, XOR, ORR, LOD, STR, BNE, SLL, SRL,
-       AND, XXR, CPP, CYY, SUB, BGT } op_mne;
+       AND, XXR, CPP, CYY, SUB, BGT, EQL } op_mne;
 endpackage // Definitions
