@@ -21,8 +21,8 @@ module RegFile #(parameter W=8, A=4)(
   input        [W-1:0] DataIn,    // data for registers
   input        [W-1:0] Immediate, // load immediate
   output logic [W-1:0] DataOutA,  //  Operand1
-  output logic [W-1:0] DataOutB,   //  Operand2
-  output logic [W-1:0] DataOutTarget // contain address for branching
+  output logic [W-1:0] DataOutB   //  Operand2
+  //output logic [W-1:0] DataOutTarget // contain address for branching
   //output logic [W-1:0] DataOutReadAdd
 );
 
@@ -45,27 +45,24 @@ logic [W-1:0] Registers[2**A];
 //assign DataOutTarget = Registers[Rtaddr]; // for branch
 //assign DataOutReadAdd = Registers[0];  // r0 = mem address
 
-always_ff @(posedge Clk) begin
+always_comb begin
   if(Operation==kSTR || Operation == kLOD) begin 
-    DataOutA = Registers[Rtaddr];
-    DataOutB = Registers[0];
+    DataOutA <= Registers[Rtaddr];
+    DataOutB <= Registers[0];
   end
 
   else if(Operation == kBNE || Operation == kBGT) begin 
-    DataOutA = Registers[1];
-    DataOutB = Registers[2];
-    DataOutTarget = Registers[Rtaddr];
+    DataOutA <= Registers[1];
+    DataOutB <= Registers[2];
   end
 
   else begin
-    DataOutA = Registers[1];
-    DataOutB = Registers[2];
+    DataOutA <= Registers[1];
+    DataOutB <= Registers[2];
   end
 
 
 end
-
-
 // This is MIPS-style registers (i.e. r0 is always read-as-zero)
 always_ff @(posedge Clk)begin
   if (Reset) begin

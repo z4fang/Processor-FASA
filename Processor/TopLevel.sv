@@ -41,7 +41,7 @@ wire [ 9:0] PC1_ProgCtr_out;  // the program counter
 // n.b. "LUT" is a pretty generic name, a nice example
 // of how to do a LUT, but your core should call this
 // something more informative probably...
-
+wire [ 9:0] LUT1_Target_out;
 
 
 // Control block outputs
@@ -98,15 +98,15 @@ ProgCtr PC1 (
   //.BranchAbsEn (Ctrl1_Jump_out),   // jump enable
   .BranchRelEn (Ctrl1_BranchEn_out), // branch enable
   .ALU_flag    (Jump),               // Maybe your PC will find this useful
-  .Target      (RegOut_Target),    // "where to?" or "how far?" during a jump or branch
+  .Target      (LUT1_Target_out),    // "where to?" or "how far?" during a jump or branch
   .ProgCtr     (PC1_ProgCtr_out)     // program count = index to instruction memory
 );
 
 // this is one way to 'expand' the range of jumps available
-/*LUT LUT1(
-  .Addr         (Ctrl1_TargSel_out),
+LUT LUT1(
+  .Addr         (Active_InstOut[3:0]),
   .Target       (LUT1_Target_out)
-); */
+);
 
 
 // Note that it may be simpler to handle Start here; depends on your design!
@@ -157,8 +157,8 @@ RegFile #(.W(8),.A(4)) RF1 (
   .Immediate (Active_InstOut[7:0]),
   .DataIn    (ExMem_RegValue_out),
   .DataOutA  (RF1_DataOutA_out),
-  .DataOutB  (RF1_DataOutB_out),
-  .DataOutTarget  (RegOut_Target)
+  .DataOutB  (RF1_DataOutB_out)
+  //.DataOutTarget  (RegOut_Target)
   //.DataOutReadAdd (RF1_ReadAddr)
 
 );

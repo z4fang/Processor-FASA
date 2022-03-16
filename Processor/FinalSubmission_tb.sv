@@ -43,7 +43,7 @@ initial begin
 
   // Load the "golden image" data memory once at the beginning
   // Did you choose the 11-bit or 16-bit interpretation for Program 2?
-  $readmemh("C:/Users/Ken/Documents/GitHub/CSE141L/data_mem_02-golden-P2_16.hex", DataMemoryAtFinish);
+  $readmemh("C:/Users/Ken/Desktop/Proj/data_mem_01-golden-P2_16.hex", DataMemoryAtFinish);
   //$readmemh("data_mem_01-golden-P2_16.hex", DataMemoryAtFinish);
 
   // De-assert Reset, Assert Start to "load" P1 as-needed
@@ -100,7 +100,6 @@ initial begin
 
   // Display any relevant diagnostic or performance measurments for P2
   $display("last instruction = %d", DUT.PC1.ProgCtr);
-  
 
 
   // Assert Start to "load" P3 as-needed
