@@ -21,7 +21,7 @@ four special register. r0 for memory operation(load and store), r1 and r2 for ar
 0010 - ORR (bitwise OR r1 and r2 and store in rt)
 0011 - LOD (load the value in mem[r0] and store in rt)
 0100 - STR (store the value in rs to mem[r0])
-0101 - BNE (if r1 not equals to r2 branch to start address+rs, if not stay)
+0101 - BNE (if r1 not equals to r2 branch to start address+offset, if not stay)
 0110 - SLL (Shift the contents in r1 to left r2 positions, store in rt)
 0111 - SRL (Shift the contents in r1 to right r2 positions, store in rt)
 1000 - AND (bitwise AND r1 and r2 and store in rt)
@@ -29,7 +29,7 @@ four special register. r0 for memory operation(load and store), r1 and r2 for ar
 1010 - CPP (Copy a value from another rs to r1)
 1011 - CYY (Copy a value from another rs to r2)
 1100 - SUB (r1 subtract r2 and store in rt)
-1101 - BGT (if r1 is > r2 branch to start address+rs, if not stay)
+1101 - BGT (if r1 is > r2 branch to start address+offset, if not stay)
 1110 - EQL(if r1 == r2, rt = 1 else rt = 0).
 </pre>
 
