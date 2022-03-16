@@ -46,6 +46,7 @@ always_comb begin
     kXXR : Out = ^{InputA,InputB};       // Reduction XOR
     kSUB : Out = InputA - InputB;
     kAND : Out = InputA & InputB;        // AND
+    kEQL : Out = InputA == InputB;
 
     default : Out = 8'bxxxx_xxxx;       // Quickly flag illegal ALU
   endcase
