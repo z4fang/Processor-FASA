@@ -1,6 +1,6 @@
 # Processor - [FASA](https://docs.google.com/document/d/1YYZlfPYRjftxfdg3hMG-gS3LckAowv40sSqFgsXgi-A/edit?usp=sharing)
 
-FASA is a RISC microprocessor architect. We designed the ISA with only a 9-bits instruction length. Therefore it comes with limited amount of Registers and Instructions. 
+FASA is a RISC microprocessor architect. We designed a ISA with the constraint of 9-bits instruction length. Therefore it comes with limited amount of Registers and Instructions. 
 This was designed to run three specific programs. Detect 2-bit corructed message, Detect and correct 1-bit corruted message, and pattern seaching. FASA runs with 
 four special register. r0 for memory operation(load and store), r1 and r2 for arithmetic operation, and r3 for load immediate operation. 
 
